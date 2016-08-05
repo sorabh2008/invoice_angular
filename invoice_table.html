@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JAINSON SALES CORPORATION - INVOICE</title>
+  <meta charset='utf-8'>
+  <meta name="description" content="JAINSON SALES CORPORATION - INVOICE">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style1.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+</head>
+<body ng-app="invoicing" ng-controller="InvoiceCtrl" >
+	<div class="container">
+		<!-- START of Div 2 -->
+		<div id="div2" class="row panel panel-default">
+			<div id="div2_1" class="col-xs-6">
+				<div class="input-group">
+				  <span class="input-group-addon" id="basic-addon-invoice-no">Invoice No.</span>
+				  <input type="text" class="form-control" placeholder="Invoice Number" aria-describedby="basic-addon-invoice-no" ng-model="invoice.invoice_info.number">
+				</div>
+			</div>
+			<div id="div2_2" class="col-xs-6">
+				<div class="input-group">
+				  <span class="input-group-addon" id="basic-addon-invoice-date">Invoice Date</span>
+				  <input type="date" class="form-control" placeholder="Invoice Date" aria-describedby="basic-addon-invoice-date" ng-model="invoice.invoice_info.date">
+				</div>
+			</div>
+		</div>
+		<!-- End of Div 2 -->
+		<!-- START of Div 3 -->
+		<div id="div3" class="row panel panel-default shiftUp">
+			<div id="div3_1" class="col-xs-8">
+				<b><u>Consignee</u></b><br>
+				<input type="text" class="no-border" ng-model="invoice.customer_info.name"/><br/>
+				<input type="text" class="no-border" ng-model="invoice.customer_info.address1"><br/>
+				<input type="text" class="no-border" ng-model="invoice.customer_info.address2"><br/>
+				<input type="text" class="no-border" ng-model="invoice.customer_info.city"/><br/>
+				<input type="text" class="no-border" ng-model="invoice.customer_info.country_postal"/><br/>
+				<input type="text" class="no-border" ng-model="invoice.customer_info.mobile"/>
+			</div>
+			<div id="div3_2" class="col-xs-4">
+				<b><u>Buyer (Other Than Consignee)</u></b><br>
+				<input type="text" class="form-control no-border">
+			</div>
+		</div>
+		<!-- End of Div 3 -->
+		<!-- START of Div 4 -->
+		<div id="div4" class="row panel panel-default shiftUp">
+			<div id="div4_1" class="col-xs-4">
+				<b><u>Carriage by Road/Rail/Sea/Air</u></b><br>
+				<input type="text" class="no-border" ng-model="invoice.carriageBy"/><br/>
+			</div>
+			<div id="div4_2" class="col-xs-4">
+				<b><u>Country of Origin of Goods</u></b><br>
+				<input type="text" class="no-border" ng-model="invoice.countryOfOriginOfGoods">
+			</div>
+			<div id="div4_3" class="col-xs-4">
+				<b><u>Country of Final Destination</u></b><br>
+				<input type="text" class="no-border" ng-model="invoice.countryOfFinalDestination">
+			</div>
+		</div>
+		<!-- End of Div 4 -->
+		<!-- START of Div 5 -->
+		<div id="div5" class="row panel panel-default shiftUp">
+			<div id="div5_1" class="col-xs-6">
+				<b><u>Flight/Vessel Name</u></b><br>
+				<input type="text" class="no-border"/><br/>
+				<b><u>Port of Discharge</u></b><br>
+				<input type="text" class="no-border" ng-model="invoice.portOfDischarge"/><br/>
+			</div>
+			<div id="div5_2" class="col-xs-6">
+				<b><u>Terms and Delivery of Payment</u></b><br>
+				<input type="text" class="form-control no-border" ng-model="invoice.termsOfPayment">
+			</div>
+		</div>
+		<div id="div6" class="row panel panel-default shiftUp">
+		  <table class="table">
+			<thead>
+			  <tr class="shiftUp cropPadding">
+				<th class="sCol">CRTN</th>
+				<th class="lCol">PARTICULAR DESCRIPTION</th>
+				<th class="sCol">PCS</th>
+				<th class="mCol">PER</th>
+				<th class="mCol">SIZE</th>
+				<th class="mCol">COLOR</th>
+				<th class="sCol">QTY</th>
+				<th class="sCol">PRICE</th>
+				<th class="sCol">AMOUNT<br/>({{invoice.invoice_info.currency}})</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr class="shiftUp cropPadding" ng-repeat="item in invoice.items.slice().reverse()" ng-init="counter=$index">
+				<td class="sCol">{{counter+1}}</td>
+				<td class="lCol">{{item.description}}</td>
+				<td class="sCol">{{item.pcs}}</td>
+				<td class="mCol">{{item.per}}</td>
+				<td class="mCol">{{item.size}}</td>
+				<td class="mCol">{{item.color}}</td>
+				<td class="sCol">{{item.quantity}}</td>
+				<td class="sCol">{{item.price}}</td>
+				<td class="sCol">{{item.price * item.quantity}}</td>
+			  </tr>
+			</tbody>
+		  </table>
+		</div>
+		<!-- End of Div 7 -->
+		<!-- START of Div 8 -->
+		<div id="div8" class="row panel panel-default shiftUp">
+			<div id="div6_1" class="col-xs-6">
+			</div>
+			<div id="div6_1" class="col-xs-5 bold-underline right">
+				Total Amount: (in {{invoice.invoice_info.currency}})
+			</div>
+			<div id="div6_1" class="col-xs-1 bold-underline left">
+			{{invoiceSubTotal()}}
+			</div>
+			<div class="col-xs-12">
+			<b>Amount In Words:</b> <br><h5>{{invoice.invoice_info.currency}} - <u>{{inWords(invoiceSubTotal())}}</u></h5>
+			</div>
+		</div>
+		<!-- End of Div 8 -->
+		<!-- START of Div 9 -->
+		<div id="div9" class="row panel panel-default shiftUp">
+			<div id="div9_1" class="col-xs-8">
+				<p class="bold-underline">Declaration:</p>
+				<p>We declare that this invoice shows actual price of the goods described and all the particulars are true and correct.</p>
+			</div>
+			<div id="div9_2" class="col-xs-4">
+				<p class="bold-underline">Signature and Date:</p>
+				<p>For Jainson Sales Corporation</p><br/><br/><br/>
+				<p style="position:absolute;bottom:0;left:10;font-weight:bold">Prop:</p>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,107 @@
+
+@media print {
+    .noPrint {
+        display:none;
+    }
+}
+
+body{
+  width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#InvoiceContent{
+	margin-top:-40px;
+}
+
+.shiftUp{
+	margin-top:-18px;
+}
+
+.cropPadding{
+	padding-top:-5px;
+}
+
+.no-border {
+    border: 0;
+    box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+}
+
+.bold-underline{
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+.center{
+	text-align: center;
+}
+
+.left{
+	text-align: left;
+}
+
+.right{
+	text-align: right;
+}
+
+.small-box{
+	width:50px;
+}
+
+.medium-box{
+	width:100px;
+}
+
+.paddedTop{
+	padding-top:10px;
+}
+
+.sCol{
+	width:6%;
+	
+}
+.mCol{
+	width:10%;
+}
+.lCol{
+	width:50%;
+}
+
+.scrollDiv{
+  height: 200px; // Set this height to the appropriate size
+  //position:fixed;
+  overflow-y: scroll; // Only add scroll to vertical column
+}
+
+.bar{
+	background-color:#5c9bb7;
+
+	background-image:-webkit-linear-gradient(top, #5c9bb7, #5392ad);
+	background-image:-moz-linear-gradient(top, #5c9bb7, #5392ad);
+	background-image:linear-gradient(top, #5c9bb7, #5392ad);
+	box-shadow: 0 2px 2px #ccc;
+	border-radius: 5px;
+	width: 400px;
+	padding: 5px;
+	position:relative;
+}
+
+.bar input{
+	background:#fff no-repeat;
+	
+	border: none;
+	width: 100%;
+	line-height: 10px;
+	padding: 8px 0;
+
+	border-radius: 20px;
+	box-shadow: 0 2px 8px #c4c4c4 inset;
+	text-align: left;
+	font-size: 12px;
+	font-family: inherit;
+	color: #738289;
+	font-weight: bold;
+	outline: none;
+	text-indent: 5px;
+}

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JAINSON SALES CORPORATION - INVOICE</title>
+  <meta charset='utf-8'>
+  <meta name="description" content="JAINSON SALES CORPORATION - INVOICE">
+  <!-- Maintain order -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style1.css">
+  <script type="text/javascript" src="js/main.js"></script>
+</head>
+<body ng-app="invoicing" ng-controller="InvoiceCtrl">
+  
+	<div class="container">
+		<!-- START of Div 1 - INVOICE -->
+		<div id="div1">
+			<div class="page-header"><h3><center>HOME</center></h3></div>
+		</div>
+		<!-- End of Div 1 - INVOICE -->
+		<!-- START of Div 2 -->
+		<div id="div2" class="row panel panel-default">
+			<div id="div2_1" class="col-xs-12">
+				<h3 class="center">INVOICE INFO</h3>
+				<div class="input-group">
+				  <span class="input-group-addon" id="basic-addon-invoice-number">Invoice Number</span>
+				  <input type="text" class="form-control" placeholder="Invoice Number" aria-describedby="basic-addon-invoice-number" ng-model="invoice.invoice_info.number">
+				</div>
+				<div class="input-group">
+				  <span class="input-group-addon" id="basic-addon-invoice-date">Invoice Date</span>
+				  <input type="date" id="datetimepicker" class="form-control" placeholder="Invoice Date" aria-describedby="basic-addon-invoice-date" ng-model="invoice.invoice_info.date">
+				</div>
+				<div class="input-group">
+				  <span class="input-group-addon" id="basic-addon-exporter-ref">Exporter Ref No.</span>
+				  <input type="text" class="form-control" placeholder="IE CODE" aria-describedby="basic-addon-exporter-ref" ng-model="invoice.invoice_info.exporterRefNo">
+				</div>
+				<div class="input-group">
+				  <span class="input-group-addon" id="basic-addon-spmark">S. Mark</span>
+				  <input type="text" class="form-control" placeholder="SP Mark" aria-describedby="basic-addon-spmark" ng-model="invoice.invoice_info.spmark">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon-currency">Select Currency:</span>
+				    <label class="radio-inline">
+					  <input type="radio" name="optradio" ng-model="invoice.invoice_info.currency" value="GBP">GBP
+					</label>
+					<label class="radio-inline">
+					  <input type="radio" name="optradio" ng-model="invoice.invoice_info.currency" value="INR">INR
+					</label>
+					<label class="radio-inline">
+					  <input type="radio" name="optradio" ng-model="invoice.invoice_info.currency" value="CAD">CAD
+					</label> 
+				</div>
+				
+				<div class="row bold-underline center paddedTop">
+					<div class="col-xs-4">
+					<button class="btn btn-primary" type="button">
+					  Items Added to Invoice <span class="badge">{{invoice.items.length}}</span>
+					</button>
+					</div>
+					<div class="col-xs-8 bar">
+						<input type="text" ng-model="searchString" placeholder="Enter your search code" />
+					</div>
+					<div class="btn-group" role="group" aria-label="...">
+					  <button type="button" class="btn btn-default" data-toggle="modal" ng-click="addItem()" data-target="#model-AddProduct">ADD PRODUCT</button>
+					  <button type="button" class="btn btn-default">EDIT PRODUCT</button>
+					  <button type="button" class="btn btn-default">REMOVE PRODUCT</button>
+					</div>
+				</div>
+				<!-- MODALS -->
+				<div class="modal fade" id="model-AddProduct" role="dialog">
+					<div class="modal-dialog">
+					<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+							  <h4 class="modal-title">Add Product</h4>
+							</div>
+							<div class="modal-body">
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-code">CODE</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT CODE" aria-describedby="basic-addon-product-code" ng-model="invoice.items[0].code" ng-required>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-desc">DESCRIPTION</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT DESCRIPTION" aria-describedby="basic-addon-product-desc" ng-required ng-model="invoice.items[0].description">
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-packing-pcs">PACKING PCS</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT PACKING PIECES" aria-describedby="basic-addon-product-packing-pcs" ng-required ng-model="invoice.items[0].pcs">
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-packing-per">PACKING PER</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT PACKING PIECES PER UNIT?" aria-describedby="basic-addon-product-packing-per" ng-required ng-model="invoice.items[0].per">
+								</div>
+							</div>
+							<div class="modal-footer">
+							  <button type="button" class="btn btn-default" data-dismiss="modal">ADD</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row invoice-item scrollDiv paddedTop">
+					<table class="table">
+						<thead>
+						  <tr class="shiftUp cropPadding">
+							<th class="mCol">CODE</th>
+							<th class="lCol">PARTICULAR DESCRIPTION</th>
+							<th class="sCol">PRICE</th>
+							<th class="mCol">ADD/EDIT/DELETE</th>
+						  </tr>
+						</thead>
+						<tbody class="">
+						  <tr class="shiftUp cropPadding" ng-repeat="item in invoice.dbItems.slice().reverse() | orderBy:'code' | searchFor:searchString" ng-init="counter=$index">
+							<td class="mCol">{{item.code}}</td>
+							<td class="lCol">{{item.description}}</td>
+							<td class="sCol">{{item.price}}</td>
+							<td class="mCol"><button type="button" class="btn btn-default" ng-click="addItemToList(item)">ADD</button></td>
+						  </tr>
+						</tbody>
+					  </table>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 btn-group" role="group" aria-label="...">
+						<button type="button" class="btn btn-default" ng-click="saveInvoiceToLocal()">SAVE</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		<div id="div2" class="row panel panel-default">
+			<div id="div2_1" class="col-xs-12">
+				<h3 class="center">DB INFO</h3>
+				<div class="row bold-underline center paddedTop">
+					<div class="btn-group" role="group" aria-label="...">
+					  <button type="button" class="btn btn-default" data-toggle="modal" ng-click="addItem()" data-target="#model-AddProductInDB">ADD PRODUCT</button>
+					  <button type="button" class="btn btn-default">VIEW PRODUCTS</button>
+					</div>
+				</div>
+				<!-- MODALS -->
+				<div class="modal fade" id="model-AddProductInDB" role="dialog">
+					<div class="modal-dialog">
+					<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+							  <h4 class="modal-title">Add Product</h4>
+							</div>
+							<div class="modal-body">
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-code">CODE</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT CODE" aria-describedby="basic-addon-product-code" ng-model="invoice.items[0].code" ng-required>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-desc">DESCRIPTION</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT DESCRIPTION" aria-describedby="basic-addon-product-desc" ng-required ng-model="invoice.items[0].description">
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-packing-pcs">PACKING PCS</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT PACKING PIECES" aria-describedby="basic-addon-product-packing-pcs" ng-required ng-model="invoice.items[0].pcs">
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-packing-per">PACKING PER</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT PACKING PIECES PER UNIT?" aria-describedby="basic-addon-product-packing-per" ng-required ng-model="invoice.items[0].per">
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-size">SIZE</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT SIZE?" aria-describedby="basic-addon-product-size" ng-required ng-model="invoice.items[0].size">
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-color">COLOR</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT COLOR?" aria-describedby="basic-addon-product-color" ng-required ng-model="invoice.items[0].color">
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon-product-cost">COST</span>
+								  <input type="text" class="form-control" placeholder="PRODUCT COST?" aria-describedby="basic-addon-product-cost" ng-required ng-model="invoice.items[0].price">
+								</div>
+							</div>
+							<div class="modal-footer">
+							  <button type="button" class="btn btn-default" data-dismiss="modal">ADD</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row invoice-item paddedTop">
+					<h3 class="center">Recently Added</h3>
+					<table class="table">
+						<thead>
+						  <tr class="shiftUp cropPadding">
+							<th class="sCol">CODE</th>
+							<th class="lCol">PARTICULAR DESCRIPTION</th>
+							<th class="sCol">PCS</th>
+							<th class="mCol">PER</th>
+							<th class="mCol">SIZE</th>
+							<th class="mCol">COLOR</th>
+							<th class="sCol">PRICE</th>
+						  </tr>
+						</thead>
+						<tbody>
+						  <tr class="shiftUp cropPadding" ng-repeat="item in invoice.dbItems.slice().reverse() | limitTo:5" ng-init="counter=$index">
+							<td class="sCol">{{item.code}}</td>
+							<td class="lCol">{{item.description}}</td>
+							<td class="sCol">{{item.pcs}}</td>
+							<td class="mCol">{{item.per}}</td>
+							<td class="mCol">{{item.size}}</td>
+							<td class="mCol">{{item.color}}</td>
+							<td class="sCol">{{item.price}}</td>
+						  </tr>
+						</tbody>
+					  </table>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 btn-group" role="group" aria-label="...">
+						<button type="button" class="btn btn-default" ng-click="insertToDB()">SAVE</button>
+					</div>
+				</div>
+				<div id="contentDownloadLink"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+  
+</body>
+</html>
